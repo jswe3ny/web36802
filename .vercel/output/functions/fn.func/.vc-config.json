@@ -1,0 +1,10 @@
+{
+	"runtime": "nodejs20.x",
+	"handler": "..\\..\\..\\..\\..\\..\\Users\\jswee\\school\\temp2\\web3680-2e39bc152644092864cf82eeae67d3eaa9704778\\.svelte-kit\\vercel-tmp\\index.js",
+	"launcherType": "Nodejs",
+	"experimentalResponseStreaming": true,
+	"framework": {
+		"slug": "sveltekit",
+		"version": "2.5.7"
+	}
+}
