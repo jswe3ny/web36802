@@ -125,7 +125,7 @@ const options = {
     app: ({ head, body, assets: assets2, nonce, env }) => '<!doctype html>\n<html lang="en">\n	<head>\n		<meta charset="utf-8" />\n		<link rel="icon" href="' + assets2 + '/favicon.png" />\n		<meta name="viewport" content="width=device-width, initial-scale=1" />\n		' + head + '\n	</head>\n	<body data-sveltekit-preload-data="hover">\n		<div style="display: contents">' + body + "</div>\n	</body>\n</html>\n",
     error: ({ status, message }) => '<!DOCTYPE html>\n<html lang="en">\n	<head>\n		<meta charset="utf-8" />\n		<title>' + message + "</title>\n	</head>\n	<body>\n		<h1>My custom error page</h1>\n		<p>Status: " + status + "</p>\n		<p>Message: " + message + "</p>\n	</body>\n</html>"
   },
-  version_hash: "n7ltln"
+  version_hash: "8qt2ty"
 };
 async function get_hooks() {
   return {

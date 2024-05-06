@@ -48,13 +48,13 @@
  
    <!-- Open the modal using ID.showModal() method -->
    <div class="max-w-2xl mx-auto">
-    <!-- <button class="btn btn-success btn-outline mt-4 " onclick="my_modal_5.showModal()">New Buy</button> -->
+    <button class="btn btn-success btn-outline mt-4 " onclick="my_modal_5.showModal()">New Buy</button>
     <dialog id="my_modal_5" class="modal sm:modal-middle">
       <div class="modal-box">
-        <form method="dialog" class="ml-auto text-end">
-          <!-- if there is a button in form, it will close the modal -->
+        <!-- <form method="dialog" class="ml-auto text-end">
+          if there is a button in form, it will close the modal
           <button  class="btn btn-outline btn-error text-end">Close</button>
-        </form>
+        </form> -->
         <form method="post" use:enhance class=" flex flex-col p-6 gap-3">
          
           <label class="input input-bordered flex items-center gap-2">
