@@ -18,6 +18,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 	const res = await db.query.buyTable.findMany({
 		where: eq(buyTable.userId, locals.user.id)
 	})
+	console.log("about difine display data type")
 
 	type DisplayData = {
 			ticker: string,
@@ -80,6 +81,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 		return pe;
 	}
 
+	console.log("about to push data to db")
 	for (let i =0; i< res.length;i++){
 
 		const currentTicker = res[i].ticker;
@@ -92,7 +94,6 @@ export const load: PageServerLoad = async ({ locals }) => {
 		let pe = calcPE( costPerShare, eps.eps,);
 		
 		
-
 		let locationInArray= displayData.findIndex(obj => obj?.ticker == currentTicker)
 		// console.log(locationInArray)
 
@@ -143,28 +144,28 @@ export const actions: Actions = {
 		const buyDate = formdata.get("buyDate")?.toString();
 		let costPerShare = formdata.get("costPerShare");
 		let tickerUpperCase = "" + ticker;
-
 		// Ensure ticker is all caps
 		tickerUpperCase = tickerUpperCase.toUpperCase();
-
-		let request = await fetch("https://www.sec.gov/files/company_tickers.json");
-		let cik = await request.json()
-		let cikNumber="";
 		
-		//Search for CIK number and Return with 10 digits, adds leading zeros if necessary
-		for(let i=0; i < Object.keys(cik).length; i++) {
-			// console.log(cik[i].ticker)
-			if (cik[i].ticker == tickerUpperCase) {
-				cikNumber += cik[i].cik_str;
-				console.log(cik[i])
-				while (cikNumber.length < 10) {
-					cikNumber = "0" + cikNumber;
-				}
-				break;
-			}
-		}		
+		// let request = await fetch("https://www.sec.gov/files/company_tickers.json");
+		// let cik = await request.json()
+		// let cikNumber="";
+		
+		// //Search for CIK number and Return with 10 digits, adds leading zeros if necessary
+		// for(let i=0; i < Object.keys(cik).length; i++) {
+		// 	// console.log(cik[i].ticker)
+		// 	if (cik[i].ticker == tickerUpperCase) {
+		// 		cikNumber += cik[i].cik_str;
+		// 		console.log(cik[i])
+		// 		while (cikNumber.length < 10) {
+		// 			cikNumber = "0" + cikNumber;
+		// 		}
+		// 		break;
+		// 	}
+		// }		
+		console.log("about to validate form data")
 		// Return Error if Symbol is not found
-		if (!cikNumber) {
+		if (!tickerUpperCase) {
 			console.log("Ticker fail")
 			return fail(400, {
 				message: "Invalid Ticker"
@@ -200,7 +201,7 @@ export const actions: Actions = {
 		costPerShare = costPerShare.toString()
 		const date: Date = new Date(buyDate)
 		// ##Issue was improper typing##
-
+		let cikNumber = "0000333333"
 		await db.insert(buyTable).values({
 			userId: event.locals.user.id,
 			ticker: tickerUpperCase,

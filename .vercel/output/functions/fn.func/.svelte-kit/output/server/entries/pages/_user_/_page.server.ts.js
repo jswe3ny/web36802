@@ -8,6 +8,7 @@ const load = async ({ locals }) => {
   const res = await db.query.buyTable.findMany({
     where: eq(buyTable.userId, locals.user.id)
   });
+  console.log("about difine display data type");
   let displayData = [];
   const getEPS = async (ticker, date) => {
     const res2 = await fetch(`https://financialmodelingprep.com/api/v3/income-statement/${ticker}?period=annual&apikey=${API_KEY}`);
@@ -43,6 +44,7 @@ const load = async ({ locals }) => {
     }
     return pe;
   };
+  console.log("about to push data to db");
   for (let i = 0; i < res.length; i++) {
     const currentTicker = res[i].ticker;
     const costPerShare = Number(res[i].costPerShare);
@@ -86,6 +88,8 @@ const actions = {
     const buyDate = formdata.get("buyDate")?.toString();
     let costPerShare = formdata.get("costPerShare");
     let tickerUpperCase = "" + ticker;
+    console.log(tickerUpperCase);
+    console.log("got form data");
     tickerUpperCase = tickerUpperCase.toUpperCase();
     let request = await fetch("https://www.sec.gov/files/company_tickers.json");
     let cik = await request.json();
@@ -100,6 +104,7 @@ const actions = {
         break;
       }
     }
+    console.log("about to validate form data");
     if (!cikNumber) {
       console.log("Ticker fail");
       return fail(400, {
