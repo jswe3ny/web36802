@@ -48,7 +48,7 @@
  
    <!-- Open the modal using ID.showModal() method -->
    <div class="max-w-2xl mx-auto">
-    <button class="btn btn-success btn-outline mt-4 " onclick="my_modal_5.showModal()">New Buy</button>
+    <!-- <button class="btn btn-success btn-outline mt-4 " onclick="my_modal_5.showModal()">New Buy</button> -->
     <dialog id="my_modal_5" class="modal sm:modal-middle">
       <div class="modal-box">
         <form method="dialog" class="ml-auto text-end">
