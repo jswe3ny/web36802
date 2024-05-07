@@ -7,34 +7,52 @@
    export let data: PageData;
 
    console.log(data.displayData)
+   const formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
 
+  // These options are needed to round to whole numbers if that's what you want.
+  //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+  //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+});
 </script>
 <h1 class="text-3xl text-center p-6">{data.user?.username}'s Dashboard</h1>
 <!-- <h1>{data.res[6].ticker}</h1> -->
 
-<div class="mx-4 overflow-x-auto min-h-[80vh]">
+<div class="mx-2 overflow-x-hidden min-h-[80vh]">
   {#if data.displayData.length > 0}
-    <div class="mx-auto max-h-[400px] overflow-y-scroll max-w-3xl">
+    <div class="mx-auto max-h-[500px] overflow-y-scroll max-w-3xl">
       <table class="table max-w-2xl mx-auto ">
         <!-- head -->
         <thead>
           <tr>
             <th>Ticker</th>
             <th>Shares</th>
-            <th>Value</th>
+            <th>Cost</th>
+            <th class="sm:table-cell">value</th>
             <th class="hidden sm:table-cell">Average P/E</th>
             <th class="hidden sm:table-cell">Return</th>
           </tr>
         </thead>
         <tbody>
           {#each data.displayData as stock} 
+          {#if stock}
             <tr class="hover">
               <th>{stock?.ticker}</th>
               <td class="py-5">{stock?.info.numShares}</td>
-              <td>{stock?.info.totalCost}</td>
+              <td>{formatter.format(Number(stock?.info.totalCost))}</td>
+              <td>{formatter.format(Number(stock?.info.numShares * stock?.info.quote))}</td>
               <td class="hidden sm:table-cell">{stock?.info.averagePE}</td>
-              <td class="hidden sm:table-cell">Test</td>  
+              {#if (stock?.info.numShares * stock?.info.quote) - stock?.info.totalCost < 0}
+                <td class="hidden text-[#dc2626] sm:table-cell">{formatter.format((stock?.info.numShares * stock?.info.quote) - stock?.info.totalCost)}</td>  
+                {:else}
+                <td class="hidden text-[#16A34A] sm:table-cell">+{formatter.format((stock?.info.numShares * stock?.info.quote) - stock?.info.totalCost)}</td> 
+
+              {/if}
             </tr>
+            {:else}
+            <p>no data found </p>
+            {/if}
           {/each}
         </tbody>
       </table>
@@ -52,7 +70,6 @@
     <dialog id="my_modal_5" class="modal sm:modal-middle">
       <div class="modal-box">
         <form method="dialog" class="ml-auto text-end">
-          if there is a button in form, it will close the modal
           <button  class="btn btn-outline btn-error text-end">Close</button>
         </form> 
         <form method="POST" use:enhance class=" flex flex-col p-6 gap-3">

@@ -18,7 +18,6 @@ export const load: PageServerLoad = async ({ locals }) => {
 	const res = await db.query.buyTable.findMany({
 		where: eq(buyTable.userId, locals.user.id)
 	})
-	console.log("about difine display data type")
 
 	type DisplayData = {
 			ticker: string,
@@ -26,7 +25,8 @@ export const load: PageServerLoad = async ({ locals }) => {
 				pe:number,
 				averagePE: number,
 				totalCost: number,
-				numShares: number
+				numShares: number,
+				quote: number
 			}
 		}
 
@@ -48,7 +48,6 @@ export const load: PageServerLoad = async ({ locals }) => {
 
 			// if date has not happened yet, use last years form
 			if(reportFileDate < date &&  i == dataLength-1){
-				console.log(data[i].symbol +" that data hasnt been released, using last years data. EPS: " + data[i-1].eps)
 				return {
 					message: "data hasn't been reported yet, using last years numbers",
 					eps: Number(data[i-1].eps)
@@ -81,14 +80,21 @@ export const load: PageServerLoad = async ({ locals }) => {
 		return pe;
 	}
 
-	console.log("about to push data to db")
 	for (let i =0; i< res.length;i++){
+		// Get Stock Quote
+
+		
 
 		const currentTicker = res[i].ticker;
 		const costPerShare = Number(res[i].costPerShare);
 		const numShares = res[i].numShares
 		const date = res[i].buyDate;
 		const localTotalCost = costPerShare * numShares;
+
+		const quoteRes = await fetch (`https://financialmodelingprep.com/api/v3/quote/${currentTicker}?apikey=${API_KEY}`);
+		const quoteData = await quoteRes.json()
+
+		
 
 		const eps = await getEPS(res[i].ticker, date);
 		let pe = calcPE( costPerShare, eps.eps,);
@@ -98,7 +104,6 @@ export const load: PageServerLoad = async ({ locals }) => {
 		// console.log(locationInArray)
 
 		if(locationInArray == -1){
-			// console.log("pushing " + currentTicker)
 			if (!isFinite(pe)) {
 				pe = 0
 			}
@@ -106,7 +111,8 @@ export const load: PageServerLoad = async ({ locals }) => {
 				pe: pe,
 				averagePE: parseFloat(pe.toFixed(2)),
 				totalCost: localTotalCost,
-				numShares: numShares
+				numShares: numShares,
+				quote: quoteData[0].price
 			}})
 		} 
 			// ensure there is a defined object then update values
@@ -147,23 +153,7 @@ export const actions: Actions = {
 		// Ensure ticker is all caps
 		tickerUpperCase = tickerUpperCase.toUpperCase();
 		
-		// let request = await fetch("https://www.sec.gov/files/company_tickers.json");
-		// let cik = await request.json()
-		// let cikNumber="";
 		
-		// //Search for CIK number and Return with 10 digits, adds leading zeros if necessary
-		// for(let i=0; i < Object.keys(cik).length; i++) {
-		// 	// console.log(cik[i].ticker)
-		// 	if (cik[i].ticker == tickerUpperCase) {
-		// 		cikNumber += cik[i].cik_str;
-		// 		console.log(cik[i])
-		// 		while (cikNumber.length < 10) {
-		// 			cikNumber = "0" + cikNumber;
-		// 		}
-		// 		break;
-		// 	}
-		// }		
-		console.log("about to validate form data")
 		// Return Error if Symbol is not found
 		if (!tickerUpperCase) {
 			console.log("Ticker fail")
