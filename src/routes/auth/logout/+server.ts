@@ -1,7 +1,7 @@
 import { lucia } from "$lib/server/auth";
 import { fail, redirect } from "@sveltejs/kit";
 
-export const GET = async (event) => {
+export const POST = async (event) => {
 	if (!event.locals.session) {
 		// No Session
 		fail(401, {

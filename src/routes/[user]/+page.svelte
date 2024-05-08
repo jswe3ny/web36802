@@ -3,10 +3,12 @@
 	  import { enhance } from "$app/forms";
     import type { PageData } from './$types';
 
+   
     
    export let data: PageData;
+  //  console.log(data.user?.username)
 
-   console.log(data.displayData)
+  //  console.log(data.displayData)
    const formatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
   currency: 'USD',
@@ -38,17 +40,21 @@
           {#each data.displayData as stock} 
           {#if stock}
             <tr class="hover">
-              <th>{stock?.ticker}</th>
+              <th>
+                <a href={`/${data.user?.username}/${stock.ticker}`}>
+                  {stock?.ticker}
+                </a>
+              </th>
               <td class="py-5">{stock?.info.numShares}</td>
               <td>{formatter.format(Number(stock?.info.totalCost))}</td>
               <td>{formatter.format(Number(stock?.info.numShares * stock?.info.quote))}</td>
               <td class="hidden sm:table-cell">{stock?.info.averagePE}</td>
-              {#if (stock?.info.numShares * stock?.info.quote) - stock?.info.totalCost < 0}
-                <td class="hidden text-[#dc2626] sm:table-cell">{formatter.format((stock?.info.numShares * stock?.info.quote) - stock?.info.totalCost)}</td>  
-                {:else}
-                <td class="hidden text-[#16A34A] sm:table-cell">+{formatter.format((stock?.info.numShares * stock?.info.quote) - stock?.info.totalCost)}</td> 
+                {#if (stock?.info.numShares * stock?.info.quote) - stock?.info.totalCost < 0}
+                  <td class="hidden text-[#dc2626] sm:table-cell">{formatter.format((stock?.info.numShares * stock?.info.quote) - stock?.info.totalCost)}</td>  
+                  {:else}
+                  <td class="hidden text-[#16A34A] sm:table-cell">+{formatter.format((stock?.info.numShares * stock?.info.quote) - stock?.info.totalCost)}</td> 
 
-              {/if}
+                {/if}
             </tr>
             {:else}
             <p>no data found </p>

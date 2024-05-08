@@ -10,14 +10,17 @@
 	<!-- <nav> -->
 		<nav class="navbar bg-neutral text-neutral-content text-xl flex justify-between px-5 md:justify-around p-4">
 			<!-- <input type="checkbox" value="dark" class="toggle theme-controller"/> -->
-			<a href="/" class="btn btn-ghost text-xl">Stonks</a>
+			<a href="/" class="btn btn-ghost text-xl">Home</a>
 			<div>
 				{#if data.user}
-					<a class="btn btn-ghost text-xl" href="/auth/logout">sign Out</a>
-					
+					<!-- <a  data-sveltekit-preload-data="tap" class="btn btn-ghost text-xl" href="/auth/logout">sign Out</a> -->
+					<form method="POST" action="/auth/logout">
+						<button class="btn btn-ghost text-xl">Sign Out</button>
+
+					</form>
 				{:else}
 					<a class="btn btn-ghost text-xl" href="/auth/login">Login</a>				
-					<a class="btn btn-ghost text-xl" href="/auth/signup">signup</a>
+					<a class="btn btn-ghost text-xl" href="/auth/signup">Sign Up</a>
 				{/if}
 			</div>
 		</nav>

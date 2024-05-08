@@ -52,8 +52,6 @@ export const actions: Actions = {
 				message: "Invalid password"
 			});
 		}
-		console.log("password: " + password);
-		console.log("password confirm: " + passwordConfirm);
 
 		if (password != passwordConfirm?.toString()) {
 			return fail(400, {

@@ -16,14 +16,14 @@
 		{/if}
 		<h1 class="text-center text-3xl p-4">Login</h1>
 
-		<form method="post" use:enhance class=" mx-auto py-4 px-10 flex flex-col max-w-sm gap-y-3">
+		<form method="post" use:enhance class=" mx-auto py-4 px-10 flex flex-col max-w-sm gap-y-3"  autocomplete="on">
 			<div class="flex flex-col gap-1">
 				<label for="username">Username</label>
 				<input name="username" id="username" class="px-4 py-2 max" />
 			</div>
 			<div class="flex flex-col gap-1">	
 				<label for="password">Password</label>
-				<input type="password" name="password" id="password" class="px-4 py-2 max"/>
+				<input autocomplete="on" type="password" name="password" id="password" class="px-4 py-2 max"/>
 			</div>
 			
 			<button class="btn btn-success hover:text-gray-light">Continue</button>

@@ -25,11 +25,11 @@
 	</div>
 	<div class="flex flex-col gap-1">	
 		<label for="password">Password</label>
-		<input type="password" name="password" id="password" class="px-4 py-2 max"/>
+		<input autocomplete="on" type="password" name="password" id="password" class="px-4 py-2 max"/>
 	</div>
 	<div class="flex flex-col gap-1">	
 		<label for="confirm-password">Confirm Password</label>
-		<input type="password" name="confirm-password" id="confirm-password" class="px-4 py-2 max"/>
+		<input autocomplete="on" type="password" name="confirm-password" id="confirm-password" class="px-4 py-2 max"/>
 	</div>
 	
 	<button class="btn btn-success hover:text-gray-light">Continue</button>
