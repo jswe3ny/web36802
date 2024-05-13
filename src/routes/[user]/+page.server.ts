@@ -146,7 +146,7 @@ export const actions: Actions = {
 		const formdata = await event.request.formData();
 		// get form values
 		let ticker = formdata.get("ticker");
-		const numShares = Number(formdata.get("numShares"));
+		const numShares = Math.abs(Number(formdata.get("numShares")));
 		const buyDate = formdata.get("buyDate")?.toString();
 		let costPerShare = formdata.get("costPerShare");
 		let tickerUpperCase = "" + ticker;
@@ -162,6 +162,15 @@ export const actions: Actions = {
 			});
 			
 		}
+		const tickerRes = await fetch (`https://financialmodelingprep.com/api/v3/quote/${tickerUpperCase}?apikey=${API_KEY}`);
+		const tickerData = await tickerRes.json()
+		if(!tickerData[0]) {
+			console.log("fail")
+			return fail(400, {
+				message: "Invalid Ticker"
+			})
+		}
+
 
 		// Validate numShares is number
 		if (!numShares || typeof numShares !== "number") {
@@ -174,7 +183,7 @@ export const actions: Actions = {
 		// ValiDATE
 		
 		// Validate price per share 
-		if (!costPerShare || !/^-?\d+(\.\d{1,2})?$/.test(costPerShare.toString())) {
+		if (!costPerShare || !/^\d+(\.\d{1,2})?$/.test(costPerShare.toString())) {
 			console.log("fail cost per share")
 			return fail(400, {
 				message: "Invalid cost per share"
@@ -191,6 +200,13 @@ export const actions: Actions = {
 		costPerShare = costPerShare.toString()
 		const date: Date = new Date(buyDate)
 		// ##Issue was improper typing##
+
+		if(date > new Date()) {
+			return fail(400, {
+				message: "That date has not happened yet"
+			})
+		}
+
 		let cikNumber = "0000333333"
 		await db.insert(buyTable).values({
 			userId: event.locals.user.id,
