@@ -12,8 +12,9 @@ import {page } from "$app/stores"
 const formatter = new Intl.NumberFormat('en-US', {
 style: 'currency',
 currency: 'USD',
-});
 
+});
+// console.log(data.returnArr.buyDate)
 </script>
 {#if data.returnArr.length > 0  } 
 <h1 class="text-3xl text-center py-8">{$page.params.stock}</h1>
@@ -47,7 +48,8 @@ currency: 'USD',
                   </td>
                   <td class="py-5">{stock.numShares}</td>
                   <td>{formatter.format(Number(stock?.numShares * Number(stock?.costPerShare)))}</td>
-                  <td>{stock.buyDate.getDate()}-{stock.buyDate.getMonth()}-{stock.buyDate.getFullYear()}</td>
+                  <td>{stock.buyDate.toLocaleDateString("en-US")}</td>
+
                 </tr>
                 {:else}
                 <p>no data found </p>
