@@ -9,7 +9,6 @@
 	<html data-theme="dark" lang="en">
 	<!-- <nav> -->
 		<nav class="navbar bg-neutral text-neutral-content text-xl flex justify-between px-5 md:justify-around p-4">
-			<!-- <input type="checkbox" value="dark" class="toggle theme-controller"/> -->
 			<a href="/" class="btn btn-ghost text-xl">Home</a>
 			<div>
 				{#if data.user}
